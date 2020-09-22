@@ -102,7 +102,6 @@ RUN \
     # for intl
     && docker-php-ext-install $mc intl \
     # no dependency extension
-    && docker-php-ext-install $mc mcrypt \
     && docker-php-ext-install $mc bcmath \
     && docker-php-ext-install $mc calendar \
     && docker-php-ext-install $mc exif \
@@ -117,6 +116,8 @@ RUN \
     && docker-php-ext-install $mc sysvsem \
     && docker-php-ext-install $mc sysvshm \
     # ================ Install PECL extensions ====================
+    # for mcrypt
+    && pecl install mcrypt-1.0.3 && docker-php-ext-enable mcrypt \
     # for redis
     && pecl install redis && docker-php-ext-enable redis \
     # for imagick require PHP
