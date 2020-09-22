@@ -13,7 +13,7 @@ FROM php:7.4-fpm
 #
 # Must install dependencies for your extensions manually, if need.
 RUN \
-    && export mc="-j$(nproc)" \
+    export mc="-j$(nproc)" \
     && apt-get update \
     && apt-get install -y \
         # for git
