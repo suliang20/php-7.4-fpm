@@ -6,10 +6,10 @@ FROM php:7.4-fpm
 # Install Core extension
 #
 # bcmath bz2 calendar ctype curl dba dom enchant exif fileinfo filter ftp gd gettext gmp hash iconv
-# imap interbase intl json ldap mbstring mcrypt mssql mysql mysqli oci8 odbc opcache pcntl
+# imap intl json ldap mbstring mcrypt mssql mysql mysqli oci8 odbc opcache pcntl
 # pdo pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc pdo_pgsql pdo_sqlite pgsql phar posix
-# pspell readline recode reflection session shmop simplexml snmp soap sockets spl standard
-# sybase_ct sysvmsg sysvsem sysvshm tidy tokenizer wddx xml xmlreader xmlrpc xmlwriter xsl zip
+# pspell readline reflection session shmop simplexml snmp soap sockets spl standard
+# sybase_ct sysvmsg sysvsem sysvshm tidy tokenizer xml xmlreader xmlrpc xmlwriter xsl zip
 #
 # Must install dependencies for your extensions manually, if need.
 RUN \
@@ -39,8 +39,6 @@ RUN \
         libpq-dev \
         # for pspell
         libpspell-dev \
-        # for recode
-        librecode-dev \
         # for pdo_firebird
         firebird-dev \
         # for pdo_dblib
@@ -49,8 +47,6 @@ RUN \
         libldap2-dev \
         # for imap
         libc-client-dev libkrb5-dev \
-        # for interbase
-        firebird-dev \
         # for intl
         libicu-dev \
         # for gearman
@@ -63,6 +59,8 @@ RUN \
         autoconf pkg-config libssl-dev \
         # for odbc pdo_odbc
         unixodbc-dev \
+        # for mcrypt
+        libmcrypt-dev \
     #  ========== docker-php-ext install ===============================
     # for gd
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
@@ -74,8 +72,8 @@ RUN \
     # for gmp
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && docker-php-ext-install $mc gmp \
-    # for soap wddx xmlrpc tidy xsl
-    && docker-php-ext-install $mc soap wddx xmlrpc tidy xsl \
+    # for soap xmlrpc tidy xsl
+    && docker-php-ext-install $mc soap xmlrpc tidy xsl \
     # for zip
     && docker-php-ext-install $mc zip \
     # for snmp
@@ -84,8 +82,6 @@ RUN \
     && docker-php-ext-install $mc pgsql pdo_pgsql \
     # for pspell
     && docker-php-ext-install $mc pspell \
-    # for recode
-    && docker-php-ext-install $mc recode \
     # for pdo_firebird
     && docker-php-ext-install $mc pdo_firebird \
     # for pdo_dblib
@@ -97,8 +93,6 @@ RUN \
     # for imap
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install $mc imap \
-    # for interbase
-    && docker-php-ext-install $mc interbase \
     # for intl
     && docker-php-ext-install $mc intl \
     # no dependency extension
