@@ -65,7 +65,7 @@ RUN \
         unixodbc-dev \
     #  ========== docker-php-ext install ===============================
     # for gd
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install $mc gd \
     # for bz2
     && docker-php-ext-install $mc bz2 \
